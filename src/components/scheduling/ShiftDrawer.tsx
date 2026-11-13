@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { DEPARTMENTS, DEPT_BY_ID, inferShiftType, ROLES, ROLE_BY_ID, SHIFT_TYPE_LABEL, SHIFT_TYPES } from '../../domain/catalog';
 import { canCoverRole, checkEligibility, shiftPaidMinutes, type EligibilityResult } from '../../domain/scheduling';
 import { fmtDate, fmtLocalTime } from '../../domain/time';
-import type { DepartmentId, Employee, Facility, ISODate, Shift } from '../../domain/types';
+import type { DepartmentId, Facility, ISODate, Shift } from '../../domain/types';
 import { employeeName, useFacilitiesById } from '../../store/hooks';
 import { usePoise } from '../../store/store';
 import { useRun } from '../../store/useRun';

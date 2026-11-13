@@ -101,7 +101,7 @@ export function CorrectionForm({ timecard, mode, onDone, onCancel }: { timecard:
           <Field label="Date" htmlFor={`corr-date-${i}`}>
             <Input id={`corr-date-${i}`} type="date" value={r.date} onChange={(e) => setRows(rows.map((x, j) => (j === i ? { ...x, date: e.target.value } : x)))} />
           </Field>
-          <Field label={`Time (${tzAbbrev(Date.now(), tz)})`} htmlFor={`corr-time-${i}`}>
+          <Field label={`Time (${tzAbbrev(zonedToUtc(timecard.workDate, '12:00', tz), tz)})`} htmlFor={`corr-time-${i}`}>
             <Input id={`corr-time-${i}`} type="time" value={r.time} onChange={(e) => setRows(rows.map((x, j) => (j === i ? { ...x, time: e.target.value } : x)))} />
           </Field>
           {rows.length > 1 ? <IconButton icon={Trash2} label="Remove change" onClick={() => setRows(rows.filter((_, j) => j !== i))} /> : <span />}
