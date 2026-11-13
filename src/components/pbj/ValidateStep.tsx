@@ -192,15 +192,15 @@ function DailyTable({ ctx }: { ctx: PbjCtx }) {
         }
       />
       <div className="flex flex-wrap items-end gap-2 border-b border-line px-4 py-3">
-        <SearchInput value={q} onChange={(v) => { setQ(v); setPage(0); }} placeholder="Worker, ID or job" className="w-56" />
-        <Select aria-label="Review status" value={status} onChange={(e) => { setStatus(e.target.value as typeof status); setPage(0); }} className="w-auto">
+        <SearchInput value={q} onChange={(v) => { setQ(v); setPage(0); }} placeholder="Worker, ID or job" className="w-full sm:w-56" />
+        <Select aria-label="Review status" value={status} onChange={(e) => { setStatus(e.target.value as typeof status); setPage(0); }} className="w-auto max-w-full">
           <option value="all">All statuses ({result.rows.length})</option>
           <option value="ready">Eligible ({counts('ready')})</option>
           <option value="needs_review">Needs review ({counts('needs_review')})</option>
           <option value="blocked">Blocked ({counts('blocked')})</option>
           <option value="excluded">Excluded ({counts('excluded')})</option>
         </Select>
-        <Select aria-label="CMS job code" value={code} onChange={(e) => { setCode(e.target.value); setPage(0); }} className="w-auto">
+        <Select aria-label="CMS job code" value={code} onChange={(e) => { setCode(e.target.value); setPage(0); }} className="w-auto max-w-full">
           <option value="all">All CMS job codes</option>
           {codes.map((c) => (
             <option key={c} value={c}>
@@ -389,7 +389,8 @@ export function ValidateStep({ ctx, onMap }: { ctx: PbjCtx; onMap: (d: MappingDr
         );
       })}
 
-      <div className="grid gap-4 xl:grid-cols-3">
+      <DailyTable ctx={ctx} />
+      <div className="grid min-w-0 gap-4 xl:grid-cols-2 [&>*]:min-w-0">
         <Card>
           <CardHeader title="Eligible hours by CMS job code" subtitle="Rows with status Eligible only." />
           <TableWrap>
@@ -421,9 +422,6 @@ export function ValidateStep({ ctx, onMap }: { ctx: PbjCtx; onMap: (d: MappingDr
             </tbody>
           </TableWrap>
         </Card>
-        <div className="xl:col-span-2">
-          <DailyTable ctx={ctx} />
-        </div>
       </div>
       <IssueDrawer ctx={ctx} issue={open} onClose={() => setOpenKey(null)} onMap={(d) => { setOpenKey(null); onMap(d); }} />
     </div>

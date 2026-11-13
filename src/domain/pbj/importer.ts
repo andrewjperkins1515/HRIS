@@ -71,21 +71,29 @@ export function parseCsv(text: string): string[][] {
 /** Guess a column mapping from header names. Users confirm or change it explicitly. */
 export function guessMapping(headers: string[]): Partial<Record<ImportFieldKey, number>> {
   const norm = headers.map((h) => h.toLowerCase().replace(/[^a-z]/g, ''));
+  const used = new Set<number>();
+  // Needles are tried in priority order; a column is never suggested for two fields.
   const find = (...needles: string[]) => {
-    const idx = norm.findIndex((h) => needles.some((n) => h.includes(n)));
-    return idx >= 0 ? idx : undefined;
+    for (const n of needles) {
+      const exact = norm.findIndex((h, i) => !used.has(i) && h === n);
+      const idx = exact >= 0 ? exact : norm.findIndex((h, i) => !used.has(i) && h.includes(n));
+      if (idx >= 0) {
+        used.add(idx);
+        return idx;
+      }
+    }
+    return undefined;
   };
-  return {
-    externalRef: find('workerid', 'staff', 'agencyworker', 'id'),
-    workerName: find('name'),
-    agencyName: find('agency', 'vendor'),
-    jobCode: find('jobcode', 'position', 'job', 'role'),
-    workDate: find('date'),
-    timeIn: find('timein', 'start', 'in'),
-    timeOut: find('timeout', 'end', 'out'),
-    mealMinutes: find('meal', 'break'),
-    payCode: find('paycode', 'earning', 'code'),
-  };
+  const externalRef = find('agencyworkerid', 'workerid', 'staff', 'id');
+  const workerName = find('workername', 'name');
+  const agencyName = find('agencyname', 'agency', 'vendor');
+  const jobCode = find('jobcode', 'position', 'job', 'role');
+  const workDate = find('workdate', 'shiftdate', 'date');
+  const timeIn = find('timein', 'start', 'in');
+  const timeOut = find('timeout', 'end', 'out');
+  const mealMinutes = find('mealminutes', 'meal', 'break');
+  const payCode = find('paycode', 'earning', 'code');
+  return { externalRef, workerName, agencyName, jobCode, workDate, timeIn, timeOut, mealMinutes, payCode };
 }
 
 export interface ParsedImportRow {

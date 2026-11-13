@@ -39,7 +39,7 @@ export const DEMO_NOW_ISO = '2026-11-13T19:45:00.000Z'; // 2:45 PM EST
 export const HISTORY_START = '2026-10-01';
 export const CURRENT_WEEK = '2026-11-08';
 export const NEXT_WEEK = '2026-11-15';
-export const SEED_VERSION = 7;
+export const SEED_VERSION = 8;
 
 /* ------------------------------ RNG ------------------------------ */
 
@@ -516,7 +516,7 @@ export function buildSeed(): SeedState {
       requestedBy: 'Jasmine Brooks',
       requestedByRole: 'employee',
       requestedAt: '2026-11-04T14:05:00.000Z',
-      reason: 'Forgot to clock back in from break; returned at 7:30 PM.',
+      reason: 'Clocked back in late from break — kiosk queue. Returned after 30 minutes.',
       changes: [],
       status: 'approved',
       reviewer: 'Kim Tran',
@@ -529,7 +529,8 @@ export function buildSeed(): SeedState {
     const tc = timecards.find((t) => t.id === corrections[1].timecardId)!;
     const be = tc.punches.find((p) => p.type === 'break_end');
     if (be) {
-      const corrected = mkPunch('break_end', zonedToUtcMs('2026-11-03', '19:30', 'America/New_York'), 'correction', 'Kim Tran');
+      const bs = tc.punches.find((p) => p.type === 'break_start')!;
+      const corrected = mkPunch('break_end', Date.parse(bs.at) + 30 * 60000, 'correction', 'Kim Tran');
       corrected.correctionId = 'CORR-0990';
       corrected.recordedAt = '2026-11-04T16:20:00.000Z';
       corrections[1].changes = [{ punchType: 'break_end', originalPunchId: be.id, originalAt: be.at, correctedAt: corrected.at }];

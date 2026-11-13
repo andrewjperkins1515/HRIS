@@ -260,7 +260,7 @@ export function MapStep({ ctx, onMap }: { ctx: PbjCtx; onMap: (d: MappingDraft) 
         <CardHeader
           title="Worker identifiers"
           subtitle="Stable, non-PII worker IDs used for PBJ. Agency and contract staff each need their own ID (Policy Manual §2.2.o)."
-          actions={<SearchInput value={q} onChange={setQ} placeholder="Search workers" className="w-56" />}
+          actions={<SearchInput value={q} onChange={setQ} placeholder="Search workers" className="w-full sm:w-56" />}
         />
         <TableWrap maxHeight="420px">
           <thead>

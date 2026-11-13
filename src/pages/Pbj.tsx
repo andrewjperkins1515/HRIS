@@ -124,7 +124,7 @@ export default function PbjPage() {
       <div className="flex flex-wrap items-end gap-3 px-4 py-3">
         <label className="text-[13px]">
           <span className="mb-1 block text-xs font-medium text-muted">Facility</span>
-          <Select value={facility.id} onChange={(e) => set('facility', e.target.value)} className="w-auto min-w-56">
+          <Select value={facility.id} onChange={(e) => set('facility', e.target.value)} className="w-auto max-w-full sm:min-w-56">
             {facilities.map((f) => (
               <option key={f.id} value={f.id}>
                 {f.name}
@@ -134,7 +134,7 @@ export default function PbjPage() {
         </label>
         <label className="text-[13px]">
           <span className="mb-1 block text-xs font-medium text-muted">Reporting quarter</span>
-          <Select value={quarterId} onChange={(e) => { const n = new URLSearchParams(params); n.set('quarter', e.target.value); n.delete('v'); setParams(n, { replace: true }); }} className="w-auto">
+          <Select value={quarterId} onChange={(e) => { const n = new URLSearchParams(params); n.set('quarter', e.target.value); n.delete('v'); setParams(n, { replace: true }); }} className="w-auto max-w-full">
             <option value={current.id}>{current.label} — in progress</option>
             <option value={prev.id}>{prev.label} — history</option>
           </Select>
